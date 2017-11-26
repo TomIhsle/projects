@@ -18,13 +18,6 @@ If you run into a situation where a MQTT broker is not responding or refusing co
 
 ## Raspberry Pi 3 Information
 
-*Note*: Link is from Course 2
-
-[How to Setup your RPi3](https://gitlab.com/Gislason/iot-210B-student/tree/master/Lab1/PI_SETUP.md)
-
-## Course 3 Required Lab Equipment List
-
-
 | ITEM #  | DESCRIPTION |  QTY  | COST | COMPONENT | BUY URL| OTHER |
 | :-----: | :---------- | :---: | ---: | :--------: | :-----------------| :-------- |
 | 1  | Raspberry Pi 3 Kit | 1 | $89.95 | [RaspberryPi3](https://www.raspberrypi.org/) | [Adafruit](https://www.adafruit.com/products/3058) |  [Alternate](https://www.amazon.com/dp/B01C6Q4GLE?psc=1) |      
