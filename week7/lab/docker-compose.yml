@@ -1,0 +1,12 @@
+version: "3"
+
+services:
+  centralcamera:
+    # build: .
+    image: richardjortega/centralcamera
+    env_file: .env
+    privileged: true
+    volumes:
+      # Map images host folder to images container folder
+      - ./images:/app/images
+    command: ["python", "/app/centralCamera.py"]

@@ -1,0 +1,10 @@
+SELECT 
+    System.Timestamp AS OutputTime,
+    hostname AS SensorName,
+    Avg(temperature) AS AvgTemperature
+INTO
+   output
+FROM
+    InputStream TIMESTAMP BY time
+GROUP BY TumblingWindow(second,30),hostname
+HAVING Avg(temperature)>100

@@ -1,0 +1,12 @@
+[{
+	"time": "2016-01-26T20:47:53.0000000",
+	"hostname": "iot1234",
+	"temperature": 103,
+	"humidity": 34
+},
+{
+	"time": "2016-01-26T20:47:53.0000000",
+	"hostname": "iot1234",
+	"temperature": 101,
+	"humidity": 33
+}]

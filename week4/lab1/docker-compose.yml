@@ -1,0 +1,24 @@
+# Ref: https://docs.docker.com/compose/compose-file/compose-file-v2/
+# Reference for env_file: https://docs.docker.com/compose/compose-file/compose-file-v2/#env_file
+version: '2'
+services:
+  sensorclient:
+    build: sensorClient/.
+    privileged: true
+    env_file: sensorClient/.env
+
+    # https://docs.docker.com/compose/compose-file/compose-file-v2/#links
+    links:
+      - "broker"
+      - "broker:redis"
+  broker:
+    build: redis/.
+
+    # https://docs.docker.com/compose/compose-file/compose-file-v2/#ports
+    ports:
+      - "6379"
+  brokertester:
+    build: brokertester/.
+    links:
+      - "broker"
+      - "broker:redis"

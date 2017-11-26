@@ -1,0 +1,10 @@
+SELECT 
+    time,
+    hostname AS SensorName,
+    tempature AS Temp,
+    humidity AS Humidity
+INTO
+   output
+FROM
+    InputStream
+WHERE hostname='mySensor'

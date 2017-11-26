@@ -1,0 +1,35 @@
+version: "3"
+
+services:
+  centralcamera:
+    build:
+      context: ./centralcamera
+    image: "${DOCKERHUB_USERNAME}/centralcamera"
+    env_file: .env
+    privileged: true
+    ports:
+      - "80:5000"
+    depends_on:
+      - queue
+    volumes:
+      # Map container camera images/videos to host
+      - ./centralcamera/images:/app/images
+      - ./centralcamera/videos:/app/videos
+  queue:
+    image: richardjortega/uwiot-rpi-redis
+    command: ./redis-server --protected-mode no
+    ports:
+      - "6379"
+  centralvision:
+    build:
+      context: ./centralvision
+    image: "${DOCKERHUB_USERNAME}/centralvision" 
+    depends_on:
+      - queue
+      - centralcamera
+  centralsensor:
+    build:
+      context: ./centralsensor
+    image: "${DOCKERHUB_USERNAME}/centralsensor"
+    env_file: .env
+    privileged: true

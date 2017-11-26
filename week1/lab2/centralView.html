@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="node_modules/bootstrap/favicon.ico">
+
+    <title>CENTRAL FieldView</title>
+    <!-- Based on standard template from: https://v4-alpha.getbootstrap.com/examples/ -->
+    <!-- Bootstrap core CSS -->
+    <link href="node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="dashboard.css" rel="stylesheet">
+</head>
+
+<body>
+    <script>
+        // Because of how Electron and Node integrate it can mess with JQuery
+        // Needs to be included before other libs are defined (e.g. JQuery).
+        // https://electron.atom.io/docs/faq/#i-can-not-use-jqueryrequirejsmeteorangularjs-in-electron
+        window.nodeRequire = require;
+        delete window.require;
+        delete window.exports;
+        delete window.module;
+        // Call require with nodeRequire
+    </script>
+    <script>
+        // Define the websocket MQTT endpoint
+        var wsMQTTConnectionString = "ws://test.mosquitto.org:8080/"
+
+        var mqtt = nodeRequire('mqtt')
+        var client  = mqtt.connect(wsMQTTConnectionString)
+
+        client.on('connect', function () {
+            // Confirm connection
+            screenPrint('CONNECTED TO: ' + wsMQTTConnectionString)
+
+            // Subscribe to channel
+            var topic = 'iot-310b-wolf'
+            client.subscribe(topic)
+            screenPrint('SUBSCRIBED TO: ' + topic)
+            
+            // Send test message
+            var testMessage = 'Hello mqtt'
+            screenPrint('SENDING TEST MQTT MSG: ' + testMessage)
+            client.publish(topic, 'Hello mqtt')
+        })
+
+        client.on('message', function (topic, message) {
+            // message is Buffer
+            console.log(message.toString())
+            screenPrint('<span style="color: blue;">RESPONSE: ' + message + '</span>')
+        })
+
+        function screenPrint(message) {
+            // Append to div
+            $("#output").append('<p>' + message + '</p>');
+        };
+    </script>
+
+
+
+    <nav class="navbar navbar-toggleable-md navbar-inverse bg-inverse">
+        <a class="navbar-brand" href="#">CENTRAL FieldView 2017</a>
+    </nav>
+
+    <div id="below-nav" class="container-fluid">
+        <div class="row">
+            <nav class="col-sm-3 col-md-2 hidden-xs-down bg-faded sidebar">
+                <ul class="nav nav-pills flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Dashboard <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Reports</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Analytics</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Export</a>
+                    </li>
+                </ul>
+            </nav>
+
+            <main class="col-sm-9 col-md-10 pt-3">
+            <!-- // Can't figure out why the offsets aren't working, dashboard.css now includes a temp fix with padding-top of 10px -->
+            <!--<main class="col-sm-9 offset-sm-3 col-md-10 offset-md-2 pt-3">-->
+                <h2>Electron Test</h2>
+                <span><em>The following test will run within an Electron app</em></span>
+                <p>
+                    We are using Node <script>document.write(process.versions.node)</script>, Chrome <script>document.write(process.versions.chrome)</script>, and Electron <script>document.write(process.versions.electron)</script>.
+                </p>
+                
+                <h2>WebSocket MQTT Test</h2>
+
+                <div id="output"></div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        // You can also require other files to run in this process
+        nodeRequire('./renderer.js')
+    </script>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n"
+        crossorigin="anonymous"></script>
+    <script>
+        window.jQuery || document.write('<script src="node_modules/bootstrap/assets/js/vendor/jquery.min.js"><\/script>')
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
+        crossorigin="anonymous"></script>
+    <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="node_modules/bootstrap/assets/js/ie10-viewport-bug-workaround.js"></script>
+</body>
+
+</html>
